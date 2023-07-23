@@ -6,7 +6,6 @@ import {
 } from "@typegoose/typegoose";
 import { Product } from "./ProdoctModel";
 import { User } from "./UserModel";
-
 class ShippingAddress {
   @prop()
   public fullName?: string;
@@ -48,7 +47,7 @@ class PaymentResult {
   public email_address!: string;
 }
 
-@modelOptions({schemaOptions: {timestamps: true}})
+@modelOptions({schemaOptions: {timestamps: true, collection: 'orders'}})
 export class Order {
     public _id!: string
     @prop()

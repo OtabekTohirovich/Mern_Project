@@ -8,39 +8,40 @@ import seedRouter from "./routers/SeedRouter";
 import { userRouter } from "./routers/UserRouter";
 import { orderRouter } from "./routers/OrderRouter";
 import { keyRouter } from "./routers/KeyRouter";
-dotenv.config();
 
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb://localhost/tsamazona";
-mongoose.set("strictQuery", true);
 
+dotenv.config()
+
+const MONGODB_URI =
+  process.env.MONGODB_URL || 'mongodb+srv://tsamazonauser:mypassword@cluster0.bsg7fx9.mongodb.net/tsamazona?retryWrites=true&w=majority'
+mongoose.set('strictQuery', true)
 mongoose
-  .connect(MONGODB_URL)
+  .connect(MONGODB_URI)
   .then(() => {
-    console.log("connect");
+    console.log('connected to mongodb')
   })
-  .catch((err) => {
-    console.log("disconnect", err );
-  });
+  .catch(() => {
+    console.log('error mongodb')
+  })
 
-const app = express();
+const app = express()
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173"],
+    origin: ['http://localhost:5173'],
   })
-);
+)
 
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
-app.use("/api/products", productRouter);
-app.use("/api/users", userRouter);
-app.use("/api/orders", orderRouter);
-app.use("/api/seed", seedRouter);
-app.use("/api/keys", keyRouter);
+app.use('/api/products', productRouter)
+app.use('/api/users', userRouter)
+app.use('/api/orders', orderRouter)
+app.use('/api/seed', seedRouter)
+app.use('/api/keys', keyRouter)
 
 app.use(express.static(path.join(__dirname, '../../frontend/dist')))
-
 app.get('*', (req: Request, res: Response) =>
   res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
 )
