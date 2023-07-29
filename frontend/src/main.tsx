@@ -25,6 +25,8 @@ import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 import OrderPage from "./pages/OrderPage.tsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderHistoryPage from "./pages/OrderHistoryPage.tsx";
+import ProductSearch from "./pages/SearchPage.tsx";
+import { SearchProvider } from "./Context.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="search/:id" element={<ProductSearch />} />
       <Route path="" element={<ProtectedRoute />}>
         <Route path="shipping" element={<ShippingAdressPage />} />
         <Route path="payment" element={<PaymentMethodPage />} />
@@ -53,8 +56,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <PayPalScriptProvider options={{ clientId: "sb" }} deferLoading={true}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools initialIsOpen={false} />
+            <SearchProvider>
+              <RouterProvider router={router} />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </SearchProvider>
           </QueryClientProvider>
         </HelmetProvider>
       </PayPalScriptProvider>

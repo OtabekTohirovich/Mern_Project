@@ -8,12 +8,13 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "./Store";
 import { useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LinkContainer } from "react-router-bootstrap";
+import SearchContext from "./Context";
 
 function App() {
   const {
@@ -36,6 +37,23 @@ function App() {
     localStorage.removeItem("paymentMethod");
     window.location.href = "/signin";
   };
+  const navigate = useNavigate();
+  const { search, setSearch } = useContext<any>(SearchContext);
+  const searchHandler = (e: React.SyntheticEvent) => {
+    try {
+      e.preventDefault();
+      if (search) {
+        navigate(`search/${search}`);
+        
+      }
+      if (search.length === 0) {
+        return navigate(`/`);
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="d-flex, flex-column vh-full">
@@ -52,7 +70,10 @@ function App() {
               <Navbar.Brand>Amazon</Navbar.Brand>
             </LinkContainer>
 
-            <Form className="flex-grow-1 d-flex me-auto">
+            <Form
+              className="flex-grow-1 d-flex me-auto"
+              onSubmit={searchHandler}
+            >
               <InputGroup>
                 <FormControl
                   type="text"
@@ -61,6 +82,7 @@ function App() {
                   placeholder="Search Amazona"
                   aria-label="Search Amazona"
                   aria-describedby="button-search"
+                  onChange={(e) => setSearch(e.target.value)}
                 ></FormControl>
                 <Button
                   variant="outline-primary"

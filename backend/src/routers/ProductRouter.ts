@@ -24,6 +24,20 @@ productRouter.get(
   })
 );
 
+productRouter.get(
+  "/search/:query",
+  asyncHandler(async (req, res) => {
+    const product = await ProductModel.find({
+      name: { $regex: req.params.query },
+    });
+    if (product.length > 0) {
+      res.json(product);
+    } else {
+      res.status(404).json({ massage: "Product Not Found" });
+    }
+  })
+);
+
 export default productRouter
 
 // app.get("/api/products", (req: Request, res: Response) => {
