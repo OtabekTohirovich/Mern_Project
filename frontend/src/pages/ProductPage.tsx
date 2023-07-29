@@ -24,14 +24,32 @@ export default function ProductPage() {
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
     if (product!.countInStock < quantity) {
-      toast.warn("Sorry, Product is out of stock");
+      toast.warn("Product added to the cart", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       return;
     }
     dispatch({
       type: "CART_ADD_ITEM",
       payload: { ...convertProductToCartItem(product!), quantity },
     });
-    toast.success('Product added to the cart')
+    toast.success("Product added to the cart", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
     navigate('/cart')
     
   };

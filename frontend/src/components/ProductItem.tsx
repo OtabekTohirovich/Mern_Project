@@ -52,7 +52,7 @@ function ProductItem({ product }: { product: Product }) {
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Rating rating={product.rating} numReview={product.numberRewiews} />
-        <Card.Text>{product.price}</Card.Text>
+        <Card.Text> $ {product.price}</Card.Text>
         {product.countInStock === 0 ? (
           <Button variant="light" disabled>
             Out of stock
